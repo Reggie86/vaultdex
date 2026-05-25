@@ -1,0 +1,20 @@
+{
+  "name": "vaultdex",
+  "version": "1.0.0",
+  "description": "Relevance-scored Obsidian vault search with PARA filtering",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc --noEmit --skipLibCheck && node esbuild.config.mjs production",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "builtin-modules": "^3.3.0",
+    "esbuild": "0.21.5",
+    "obsidian": "latest",
+    "tslib": "2.6.2",
+    "typescript": "5.3.3",
+    "vitest": "^1.6.0"
+  }
+}

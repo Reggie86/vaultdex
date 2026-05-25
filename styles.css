@@ -1,0 +1,257 @@
+/* ── Base — uses Obsidian CSS variables, adapts to any theme ── */
+.vaultdex-view {
+  position: relative;
+  padding: 0;
+  height: 100%;
+  overflow-y: auto;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  box-sizing: border-box;
+  background: var(--background-primary);
+  color: var(--text-normal);
+}
+
+/* ── Home page ── */
+.vd-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 85vh;
+  padding: 20px;
+  text-align: center;
+}
+
+.vd-logo-home {
+  max-height: 195px;
+  max-width: 60%;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.vd-tagline {
+  font-size: 12px;
+  font-style: italic;
+  margin-bottom: 14px;
+  color: var(--text-muted);
+}
+
+/* Wrapper keeps input out of flex layout */
+.vd-input-wrap {
+  width: 400px;
+  max-width: 90vw;
+  margin-bottom: 10px;
+}
+
+.vd-input-home {
+  width: 100%;
+  height: 30px;
+  padding: 6px 9px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-modifier-form-field);
+  color: var(--text-normal);
+  box-sizing: border-box;
+  display: block;
+  text-align: left;
+}
+.vd-input-home::placeholder { color: var(--text-faint); opacity: 1; }
+
+.vd-syntax-hint {
+  font-size: 12px;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--text-faint);
+  margin-bottom: 10px;
+  letter-spacing: 0.2px;
+}
+
+.vd-home-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.vd-note-count { font-size: 11px; margin-top: 18px; color: var(--text-faint); }
+.vd-version    { font-size: 10px; color: var(--text-faint); }
+
+/* ── Buttons — structural, adapts to theme ── */
+.vd-btn {
+  background: var(--interactive-normal);
+  border: 1px solid var(--background-modifier-border);
+  padding: 4px 16px;
+  font-size: 13px;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  color: var(--text-normal);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.vd-btn:hover  { background: var(--interactive-hover); }
+.vd-btn:active { opacity: 0.8; }
+
+/* ── Results page header — brand purple, not adaptive ── */
+.vd-results-hdr {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 7px 14px;
+  background: #660099;
+}
+body.theme-dark .vd-results-hdr { background: #2a0044; }
+
+.vd-logo-compact {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.vd-search-bar { display: flex; gap: 6px; align-items: center; }
+
+.vd-input {
+  width: 320px;
+  padding: 3px 6px;
+  border: 1px solid var(--background-modifier-border);
+  font-size: 13px;
+  font-family: Arial, sans-serif;
+  background: var(--background-modifier-form-field);
+  color: var(--text-normal);
+}
+
+/* ── Purple rule — brand ── */
+.vd-rule { border: none; border-top: 2px solid #660099; margin: 0; }
+body.theme-dark .vd-rule { border-top-color: #6600aa; }
+
+/* ── Content layout: main + sidebar ── */
+.vd-content { display: flex; }
+
+.vd-main { flex: 1; min-width: 0; padding: 10px 18px; }
+
+.vd-sidebar {
+  width: 190px;
+  flex-shrink: 0;
+  padding: 10px 12px;
+  font-size: 12px;
+  border-left: 1px solid var(--background-modifier-border);
+}
+
+/* Sidebar heading — brand purple; !important overrides aggressive theme h3 rules ── */
+.vd-sidebar-h3 {
+  font-size: 11px;
+  color: #660099 !important;
+  border-bottom: 1px solid #660099 !important;
+  padding-bottom: 2px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+body.theme-dark .vd-sidebar-h3 { color: #aa55ff !important; border-bottom-color: #6600aa !important; }
+
+.vd-sitem { margin-bottom: 5px; }
+
+.vd-sitem-link {
+  font-size: 11px;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--link-color);
+}
+.vd-sitem-link:hover { text-decoration: underline; }
+.vd-sitem-active { font-weight: bold; }
+
+.vd-scnt { font-size: 10px; color: var(--text-faint); }
+
+/* ── Results count + sort ── */
+.vd-rhdr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 5px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+.vd-rhdr strong { color: #660099; }
+body.theme-dark .vd-rhdr strong { color: #aa55ff; }
+.vd-rhdr-text { flex: 1; }
+
+.vd-sort-wrap { display: flex; gap: 4px; }
+.vd-sort-btn {
+  font-size: 11px;
+  padding: 1px 7px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-family: Arial, sans-serif;
+  background: var(--interactive-normal);
+  color: var(--text-muted);
+  border: 1px solid var(--background-modifier-border);
+}
+.vd-sort-btn:hover { background: var(--interactive-hover); }
+.vd-sort-btn.active { background: #660099 !important; color: #fff !important; border-color: #660099 !important; }
+
+/* ── Result cards ── */
+.vd-result { margin-bottom: 20px; }
+
+.vd-rtitle { display: flex; align-items: baseline; gap: 3px; }
+.vd-rnum   { font-size: 11px; flex-shrink: 0; margin-right: 3px; color: var(--text-faint); }
+
+/* Title link — retro blue, dark variant ── */
+.vd-title-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: underline;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: left;
+  color: #0000cc;
+}
+.vd-title-btn:hover { color: #cc0000; }
+body.theme-dark .vd-title-btn       { color: #7799ff; }
+body.theme-dark .vd-title-btn:hover { color: #ff6666; }
+
+/* Path — retro green, dark variant ── */
+.vd-rpath {
+  font-size: 11px;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 2px 0 3px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #006600;
+}
+body.theme-dark .vd-rpath { color: #55aa55; }
+
+/* Snippet — uses theme text, retro mark colours ── */
+.vd-rsnip { font-size: 12px; line-height: 1.55; color: var(--text-normal); }
+
+.vd-rsnip mark { font-weight: bold; font-style: normal; background: #ffff99; color: #000; }
+body.theme-dark .vd-rsnip mark { background: #665500; color: #ffee99; }
+
+/* Tags — retro purple, dark variant ── */
+.vd-rtags { margin-top: 4px; }
+.vd-tag {
+  display: inline-block;
+  padding: 1px 5px;
+  font-size: 10px;
+  margin-right: 3px;
+  border-radius: 2px;
+  background: #f0e8f8;
+  color: #660099;
+  border: 1px solid #cc99dd;
+  cursor: pointer;
+}
+.vd-tag:hover { background: #cc99dd; color: #330066; }
+body.theme-dark .vd-tag             { background: #2a1a3a; color: #cc88ff; border-color: #553388; }
+body.theme-dark .vd-tag:hover       { background: #553388; color: #fff; }
+
+/* ── Empty / no results ── */
+.vd-hint, .vd-noresults { text-align: center; color: var(--text-muted); }
+.vd-hint      { font-size: 13px; padding: 20px 0; }
+.vd-noresults { font-size: 14px; padding: 30px 0; }
