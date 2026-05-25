@@ -1,6 +1,6 @@
 import esbuild from "esbuild";
 import process from "process";
-import builtins from "builtin-modules";
+import { builtinModules } from "module";
 
 const prod = process.argv[2] === "production";
 
@@ -14,7 +14,7 @@ const context = await esbuild.context({
     "@codemirror/matchbrackets", "@codemirror/rect-selection",
     "@codemirror/search", "@codemirror/state", "@codemirror/stream-parser",
     "@codemirror/text", "@codemirror/view",
-    ...builtins,
+    ...builtinModules,
   ],
   format: "cjs",
   target: "es2018",

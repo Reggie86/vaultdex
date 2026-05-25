@@ -1,7 +1,7 @@
 {
   "id": "vaultdex",
   "name": "VaultDex",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "minAppVersion": "1.4.0",
   "description": "Relevance-scored full-text vault search with PARA filtering, folder scoping, phrase and AND operators.",
   "author": "Reggie86",

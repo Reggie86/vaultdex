@@ -138,17 +138,17 @@ body.theme-dark .vd-rule { border-top-color: #6600aa; }
   border-left: 1px solid var(--background-modifier-border);
 }
 
-/* Sidebar heading — brand purple; !important overrides aggressive theme h3 rules ── */
+/* Sidebar heading — colors applied via inline JS to override aggressive themes */
 .vd-sidebar-h3 {
   font-size: 11px;
-  color: #660099 !important;
-  border-bottom: 1px solid #660099 !important;
+  color: #660099;
+  border-bottom: 1px solid #660099;
   padding-bottom: 2px;
   margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
 }
-body.theme-dark .vd-sidebar-h3 { color: #aa55ff !important; border-bottom-color: #6600aa !important; }
+body.theme-dark .vd-sidebar-h3 { color: #aa55ff; border-bottom-color: #6600aa; }
 
 .vd-sitem { margin-bottom: 5px; }
 
