@@ -191,7 +191,7 @@ body.theme-dark .vd-rhdr strong { color: #aa55ff; }
   border: 1px solid var(--background-modifier-border);
 }
 .vd-sort-btn:hover { background: var(--interactive-hover); }
-.vd-sort-btn.active { background: #660099 !important; color: #fff !important; border-color: #660099 !important; }
+.vaultdex-view .vd-sort-btn.active { background: #660099; color: #fff; border-color: #660099; }
 
 /* ── Result cards ── */
 .vd-result { margin-bottom: 20px; }
