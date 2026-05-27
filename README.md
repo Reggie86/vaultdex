@@ -1,8 +1,26 @@
+<p align="center">
+  <img src="docs/logo.jpeg" width="600" alt="VaultDex">
+</p>
+
 # VaultDex
 
 A retro-styled, relevance-scored full-text search engine for your Obsidian vault — inspired by the classic web search engines of the early internet.
 
 > **Search your personal knowledge vault**
+
+---
+
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshot-home.png" width="800" alt="VaultDex home page">
+  <br><em>Home page</em>
+</p>
+
+<p align="center">
+  <img src="docs/screenshot-results.png" width="800" alt="VaultDex search results">
+  <br><em>Search results</em>
+</p>
 
 ---
 
