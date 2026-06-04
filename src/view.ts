@@ -1,4 +1,4 @@
-import { ItemView, TFile, ViewStateResult, WorkspaceLeaf } from 'obsidian';
+import { ItemView, Notice, TFile, ViewStateResult, WorkspaceLeaf } from 'obsidian';
 import { search } from './scorer';
 import { NoteRecord, SearchResult } from './types';
 
@@ -98,13 +98,23 @@ export class VaultDexView extends ItemView {
   }
 
   private openNote(path: string) {
-    const file = this.app.vault.getAbstractFileByPath(path);
-    if (!(file instanceof TFile)) return;
+    let file = this.app.vault.getAbstractFileByPath(path);
+    if (!(file instanceof TFile)) {
+      // Path is stale (note moved/renamed) — try to find by filename alone
+      const basename = path.split('/').pop() ?? path;
+      const found = this.app.metadataCache.getFirstLinkpathDest(basename.replace(/\.md$/, ''), '');
+      if (found instanceof TFile) {
+        file = found;
+      } else {
+        new Notice('Note not found — try closing and reopening VaultDex to refresh the index.');
+        return;
+      }
+    }
     const ws = this.app.workspace;
     let rootLeaf: WorkspaceLeaf | null = null;
     ws.iterateRootLeaves((l: WorkspaceLeaf) => { if (!rootLeaf) rootLeaf = l; });
     if (rootLeaf) ws.setActiveLeaf(rootLeaf, { focus: false });
-    ws.getLeaf('tab').openFile(file);
+    ws.getLeaf('tab').openFile(file as TFile);
   }
 
   // Return tag-filtered notes as SearchResult objects (sorted, no snippet)
@@ -318,6 +328,7 @@ export class VaultDexView extends ItemView {
     const titleRow = card.createEl('div', { cls: 'vd-rtitle' });
     titleRow.createEl('span', { cls: 'vd-rnum', text: `${num}.` });
     const link = titleRow.createEl('button', { cls: 'vd-title-btn', text: r.title });
+    link.title = r.path;
     link.addEventListener('click', () => this.openNote(r.path));
 
     const pathStr = r.breadcrumb

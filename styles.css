@@ -91,15 +91,14 @@
 .vd-btn:hover  { background: var(--interactive-hover); }
 .vd-btn:active { opacity: 0.8; }
 
-/* ── Results page header — brand purple, not adaptive ── */
+/* ── Results page header ── */
 .vd-results-hdr {
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 7px 14px;
-  background: #660099;
+  background: var(--background-secondary-alt);
 }
-body.theme-dark .vd-results-hdr { background: #2a0044; }
 
 .vd-logo-compact {
   height: 32px;
@@ -121,9 +120,8 @@ body.theme-dark .vd-results-hdr { background: #2a0044; }
   color: var(--text-normal);
 }
 
-/* ── Purple rule — brand ── */
-.vd-rule { border: none; border-top: 2px solid #660099; margin: 0; }
-body.theme-dark .vd-rule { border-top-color: #6600aa; }
+/* ── Rule ── */
+.vd-rule { border: none; border-top: 2px solid var(--interactive-accent); margin: 0; }
 
 /* ── Content layout: main + sidebar ── */
 .vd-content { display: flex; }
@@ -138,17 +136,16 @@ body.theme-dark .vd-rule { border-top-color: #6600aa; }
   border-left: 1px solid var(--background-modifier-border);
 }
 
-/* Sidebar heading — colors applied via inline JS to override aggressive themes */
+/* Sidebar heading */
 .vd-sidebar-h3 {
   font-size: 11px;
-  color: #660099;
-  border-bottom: 1px solid #660099;
+  color: var(--interactive-accent);
+  border-bottom: 1px solid var(--interactive-accent);
   padding-bottom: 2px;
   margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
 }
-body.theme-dark .vd-sidebar-h3 { color: #aa55ff; border-bottom-color: #6600aa; }
 
 .vd-sitem { margin-bottom: 5px; }
 
@@ -175,8 +172,7 @@ body.theme-dark .vd-sidebar-h3 { color: #aa55ff; border-bottom-color: #6600aa; }
   color: var(--text-muted);
   border-bottom: 1px solid var(--background-modifier-border);
 }
-.vd-rhdr strong { color: #660099; }
-body.theme-dark .vd-rhdr strong { color: #aa55ff; }
+.vd-rhdr strong { color: var(--interactive-accent); }
 .vd-rhdr-text { flex: 1; }
 
 .vd-sort-wrap { display: flex; gap: 4px; }
@@ -191,7 +187,7 @@ body.theme-dark .vd-rhdr strong { color: #aa55ff; }
   border: 1px solid var(--background-modifier-border);
 }
 .vd-sort-btn:hover { background: var(--interactive-hover); }
-.vaultdex-view .vd-sort-btn.active { background: #660099; color: #fff; border-color: #660099; }
+.vaultdex-view .vd-sort-btn.active { background: var(--interactive-accent); color: var(--text-on-accent); border-color: var(--interactive-accent); }
 
 /* ── Result cards ── */
 .vd-result { margin-bottom: 20px; }
@@ -234,7 +230,7 @@ body.theme-dark .vd-rpath { color: #55aa55; }
 .vd-rsnip mark { font-weight: bold; font-style: normal; background: #ffff99; color: #000; }
 body.theme-dark .vd-rsnip mark { background: #665500; color: #ffee99; }
 
-/* Tags — retro purple, dark variant ── */
+/* Tags ── */
 .vd-rtags { margin-top: 4px; }
 .vd-tag {
   display: inline-block;
@@ -242,14 +238,12 @@ body.theme-dark .vd-rsnip mark { background: #665500; color: #ffee99; }
   font-size: 10px;
   margin-right: 3px;
   border-radius: 2px;
-  background: #f0e8f8;
-  color: #660099;
-  border: 1px solid #cc99dd;
+  background: var(--tag-background);
+  color: var(--tag-color);
+  border: 1px solid var(--tag-border-color);
   cursor: pointer;
 }
-.vd-tag:hover { background: #cc99dd; color: #330066; }
-body.theme-dark .vd-tag             { background: #2a1a3a; color: #cc88ff; border-color: #553388; }
-body.theme-dark .vd-tag:hover       { background: #553388; color: #fff; }
+.vd-tag:hover { background: var(--tag-background-hover); color: var(--tag-color-hover); }
 
 /* ── Empty / no results ── */
 .vd-hint, .vd-noresults { text-align: center; color: var(--text-muted); }

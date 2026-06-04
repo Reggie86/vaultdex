@@ -336,8 +336,18 @@ var VaultDexView = class extends import_obsidian.ItemView {
     btn.addEventListener("click", () => this.navigate({ sort: mode }));
   }
   openNote(path) {
-    const file = this.app.vault.getAbstractFileByPath(path);
-    if (!(file instanceof import_obsidian.TFile)) return;
+    var _a;
+    let file = this.app.vault.getAbstractFileByPath(path);
+    if (!(file instanceof import_obsidian.TFile)) {
+      const basename = (_a = path.split("/").pop()) != null ? _a : path;
+      const found = this.app.metadataCache.getFirstLinkpathDest(basename.replace(/\.md$/, ""), "");
+      if (found instanceof import_obsidian.TFile) {
+        file = found;
+      } else {
+        new import_obsidian.Notice("Note not found \u2014 try closing and reopening VaultDex to refresh the index.");
+        return;
+      }
+    }
     const ws = this.app.workspace;
     let rootLeaf = null;
     ws.iterateRootLeaves((l) => {
@@ -523,6 +533,7 @@ var VaultDexView = class extends import_obsidian.ItemView {
     const titleRow = card.createEl("div", { cls: "vd-rtitle" });
     titleRow.createEl("span", { cls: "vd-rnum", text: `${num}.` });
     const link = titleRow.createEl("button", { cls: "vd-title-btn", text: r.title });
+    link.title = r.path;
     link.addEventListener("click", () => this.openNote(r.path));
     const pathStr = r.breadcrumb ? `${r.breadcrumb} \u203A ${(_a = r.path.split("/").pop()) == null ? void 0 : _a.replace(/\.md$/, "")}` : r.path.replace(/\.md$/, "");
     card.createEl("div", { cls: "vd-rpath", text: pathStr });
