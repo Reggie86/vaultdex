@@ -47,7 +47,7 @@ export class VaultDexView extends ItemView {
     this.logoImgEl = top.createEl('img', {
       cls: 'vd-logo-img',
       attr: { src: this.imgSrc, alt: 'VaultDex' },
-    }) as HTMLImageElement;
+    });
 
     const searchBar = top.createEl('div', { cls: 'vd-search-bar' });
     this.inputEl = searchBar.createEl('input', {
@@ -165,7 +165,7 @@ export class VaultDexView extends ItemView {
       let rootLeaf: WorkspaceLeaf | null = null;
       ws.iterateRootLeaves((l: WorkspaceLeaf) => { if (!rootLeaf) rootLeaf = l; });
       if (rootLeaf) ws.setActiveLeaf(rootLeaf, { focus: false });
-      ws.getLeaf('tab').openFile(file);
+      void ws.getLeaf('tab').openFile(file);
     });
 
     const pathStr = r.breadcrumb

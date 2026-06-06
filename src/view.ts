@@ -62,7 +62,7 @@ export class VaultDexView extends ItemView {
   private navigate(patch: Partial<{
     query: string; paraFilter: string | null; tagFilter: string | null; sort: 'score' | 'date';
   }>) {
-    this.leaf.setViewState({
+    void this.leaf.setViewState({
       type: VIEW_TYPE,
       state: {
         query:      'query'      in patch ? (patch.query      ?? '') : this.lastQuery,
@@ -94,9 +94,9 @@ export class VaultDexView extends ItemView {
   }
 
   private openNote(path: string) {
-    let file = this.app.vault.getAbstractFileByPath(path);
-    if (!(file instanceof TFile)) {
-      // Path is stale (note moved/renamed) — try to find by filename alone
+    const raw = this.app.vault.getAbstractFileByPath(path);
+    let file: TFile | null = raw instanceof TFile ? raw : null;
+    if (!file) {
       const basename = path.split('/').pop() ?? path;
       const found = this.app.metadataCache.getFirstLinkpathDest(basename.replace(/\.md$/, ''), '');
       if (found instanceof TFile) {
@@ -110,7 +110,7 @@ export class VaultDexView extends ItemView {
     let rootLeaf: WorkspaceLeaf | null = null;
     ws.iterateRootLeaves((l: WorkspaceLeaf) => { if (!rootLeaf) rootLeaf = l; });
     if (rootLeaf) ws.setActiveLeaf(rootLeaf, { focus: false });
-    ws.getLeaf('tab').openFile(file as TFile);
+    void ws.getLeaf('tab').openFile(file);
   }
 
   // Return tag-filtered notes as SearchResult objects (sorted, no snippet)

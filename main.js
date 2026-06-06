@@ -305,7 +305,7 @@ var VaultDexView = class extends import_obsidian.ItemView {
   }
   navigate(patch) {
     var _a, _b;
-    this.leaf.setViewState({
+    void this.leaf.setViewState({
       type: VIEW_TYPE,
       state: {
         query: "query" in patch ? (_a = patch.query) != null ? _a : "" : this.lastQuery,
@@ -333,8 +333,9 @@ var VaultDexView = class extends import_obsidian.ItemView {
   }
   openNote(path) {
     var _a;
-    let file = this.app.vault.getAbstractFileByPath(path);
-    if (!(file instanceof import_obsidian.TFile)) {
+    const raw = this.app.vault.getAbstractFileByPath(path);
+    let file = raw instanceof import_obsidian.TFile ? raw : null;
+    if (!file) {
       const basename = (_a = path.split("/").pop()) != null ? _a : path;
       const found = this.app.metadataCache.getFirstLinkpathDest(basename.replace(/\.md$/, ""), "");
       if (found instanceof import_obsidian.TFile) {
@@ -350,7 +351,7 @@ var VaultDexView = class extends import_obsidian.ItemView {
       if (!rootLeaf) rootLeaf = l;
     });
     if (rootLeaf) ws.setActiveLeaf(rootLeaf, { focus: false });
-    ws.getLeaf("tab").openFile(file);
+    void ws.getLeaf("tab").openFile(file);
   }
   // Return tag-filtered notes as SearchResult objects (sorted, no snippet)
   getTagResults(idx) {
@@ -665,7 +666,9 @@ var VaultDexPlugin = class extends import_obsidian3.Plugin {
       callback: () => this.activateView()
     });
     this.addSettingTab(new VaultDexSettingTab(this.app, this));
-    this.app.workspace.onLayoutReady(() => this.rebuildIndex());
+    this.app.workspace.onLayoutReady(() => {
+      void this.rebuildIndex();
+    });
   }
   async rebuildIndex() {
     this.index = await buildIndex(this.app, this.app.vault, this.settings);
@@ -677,7 +680,7 @@ var VaultDexPlugin = class extends import_obsidian3.Plugin {
       leaf = workspace.getLeaf("tab");
       await leaf.setViewState({ type: VIEW_TYPE, active: true });
     }
-    workspace.revealLeaf(leaf);
+    void workspace.revealLeaf(leaf);
   }
   async loadSettings() {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());

@@ -26,18 +26,18 @@ export default class VaultDexPlugin extends Plugin {
     this.addRibbonIcon('eye', 'VaultDex Search', () => this.activateView());
 
     this.addCommand({
-      id: 'open-vaultdex',
-      name: 'Open VaultDex search',
+      id: 'open',
+      name: 'Open search',
       callback: () => this.activateView(),
     });
 
     this.addSettingTab(new VaultDexSettingTab(this.app, this));
 
-    this.app.workspace.onLayoutReady(() => this.rebuildIndex());
+    this.app.workspace.onLayoutReady(() => { void this.rebuildIndex(); });
   }
 
   async rebuildIndex() {
-    this.index = await buildIndex(this.app.vault, this.settings);
+    this.index = await buildIndex(this.app, this.app.vault, this.settings);
   }
 
   async activateView() {
@@ -47,11 +47,11 @@ export default class VaultDexPlugin extends Plugin {
       leaf = workspace.getLeaf('tab');
       await leaf.setViewState({ type: VIEW_TYPE, active: true });
     }
-    workspace.revealLeaf(leaf);
+    void workspace.revealLeaf(leaf);
   }
 
   async loadSettings() {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<VaultDexSettings>);
   }
 
   async saveSettings() {
