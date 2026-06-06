@@ -571,7 +571,7 @@ var VaultDexSettingTab = class extends import_obsidian2.PluginSettingTab {
   display() {
     const { containerEl } = this;
     containerEl.empty();
-    new import_obsidian2.Setting(containerEl).setName("VaultDex Settings").setHeading();
+    new import_obsidian2.Setting(containerEl).setHeading();
     new import_obsidian2.Setting(containerEl).setName("Max results").setDesc("Maximum number of search results to show.").addText((text) => text.setValue(String(this.plugin.settings.maxResults)).onChange(async (value) => {
       const n = parseInt(value);
       if (!isNaN(n) && n > 0) {
