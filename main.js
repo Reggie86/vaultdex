@@ -317,12 +317,8 @@ var VaultDexView = class extends import_obsidian.ItemView {
   }
   // ── Helpers ─────────────────────────────────────────────────────────────────
   makeInput(parent, cls, placeholder) {
-    const inp = document.createElement("input");
-    inp.type = "text";
-    inp.className = cls;
+    const inp = parent.createEl("input", { cls, type: "text" });
     inp.placeholder = placeholder;
-    inp.style.textAlign = "left";
-    parent.appendChild(inp);
     return inp;
   }
   esc(s) {
@@ -468,10 +464,21 @@ var VaultDexView = class extends import_obsidian.ItemView {
     const countSpan = rhdr.createEl("span", { cls: "vd-rhdr-text" });
     const suffix = results.length === 1 ? "" : "s";
     if (this.tagFilter) {
-      countSpan.innerHTML = `VaultDex found <strong>${results.length}</strong> note${suffix} tagged <strong>#${this.esc(this.tagFilter)}</strong>`;
+      countSpan.appendText("VaultDex found ");
+      countSpan.createEl("strong", { text: `${results.length}` });
+      countSpan.appendText(` note${suffix} tagged `);
+      countSpan.createEl("strong", { text: `#${this.tagFilter}` });
     } else {
-      const paraNote = this.paraFilter ? ` in <strong>${(_a = PARA_LABELS[this.paraFilter]) != null ? _a : this.paraFilter}</strong>` : "";
-      countSpan.innerHTML = `VaultDex found <strong>${results.length}</strong> result${suffix}${paraNote} for &ldquo;<strong>${this.esc(this.lastQuery)}</strong>&rdquo;`;
+      countSpan.appendText("VaultDex found ");
+      countSpan.createEl("strong", { text: `${results.length}` });
+      countSpan.appendText(` result${suffix}`);
+      if (this.paraFilter) {
+        countSpan.appendText(" in ");
+        countSpan.createEl("strong", { text: (_a = PARA_LABELS[this.paraFilter]) != null ? _a : this.paraFilter });
+      }
+      countSpan.appendText(" for \u201C");
+      countSpan.createEl("strong", { text: this.lastQuery });
+      countSpan.appendText("\u201D");
     }
     const sortWrap = rhdr.createEl("span", { cls: "vd-sort-wrap" });
     this.makeSortBtn(sortWrap, "score", this.tagFilter ? "A\u2013Z" : "Relevance");
@@ -503,10 +510,7 @@ var VaultDexView = class extends import_obsidian.ItemView {
       }
     }
     if (counts.size === 0) return;
-    const isDark = document.body.classList.contains("theme-dark");
-    const h3 = sidebar.createEl("h3", { cls: "vd-sidebar-h3", text: "Categories" });
-    h3.style.color = isDark ? "#aa55ff" : "#660099";
-    h3.style.borderBottomColor = isDark ? "#6600aa" : "#660099";
+    sidebar.createEl("h3", { cls: "vd-sidebar-h3", text: "Categories" });
     if (this.paraFilter) {
       const allLink = sidebar.createEl("div", { cls: "vd-sitem" }).createEl("a", { cls: "vd-sitem-link", text: "All results" });
       allLink.addEventListener("click", (e) => {
@@ -539,7 +543,7 @@ var VaultDexView = class extends import_obsidian.ItemView {
     card.createEl("div", { cls: "vd-rpath", text: pathStr });
     if (r.snippet) {
       const snip = card.createEl("div", { cls: "vd-rsnip" });
-      snip.innerHTML = r.snippet;
+      snip.appendChild((0, import_obsidian.sanitizeHTMLToDom)(r.snippet));
     }
     if (r.tags.length) {
       const tagRow = card.createEl("div", { cls: "vd-rtags" });
@@ -567,7 +571,7 @@ var VaultDexSettingTab = class extends import_obsidian2.PluginSettingTab {
   display() {
     const { containerEl } = this;
     containerEl.empty();
-    containerEl.createEl("h2", { text: "VaultDex Settings" });
+    new import_obsidian2.Setting(containerEl).setName("VaultDex Settings").setHeading();
     new import_obsidian2.Setting(containerEl).setName("Max results").setDesc("Maximum number of search results to show.").addText((text) => text.setValue(String(this.plugin.settings.maxResults)).onChange(async (value) => {
       const n = parseInt(value);
       if (!isNaN(n) && n > 0) {
@@ -583,8 +587,7 @@ var VaultDexSettingTab = class extends import_obsidian2.PluginSettingTab {
 };
 
 // src/indexer.ts
-var SKIP_DIRS = /* @__PURE__ */ new Set([
-  ".obsidian",
+var STATIC_SKIP_DIRS = /* @__PURE__ */ new Set([
   ".claude",
   ".git",
   "_Sources",
@@ -610,13 +613,15 @@ function parseFrontmatter(text) {
   }
   return { tags, title, created, body };
 }
-async function buildIndex(vault, settings) {
+async function buildIndex(app, vault, settings) {
   var _a, _b;
+  const configDir = app.vault.configDir;
+  const skipDirs = /* @__PURE__ */ new Set([...STATIC_SKIP_DIRS, configDir]);
   const files = vault.getMarkdownFiles();
   const records = [];
   for (const file of files) {
     const parts = file.path.split("/");
-    if (parts.some((p) => SKIP_DIRS.has(p) || p.startsWith("."))) continue;
+    if (parts.some((p) => skipDirs.has(p) || p.startsWith("."))) continue;
     if (settings.excludedFolders.some((f) => file.path.startsWith(f + "/"))) continue;
     try {
       const text = await vault.read(file);
@@ -655,15 +660,15 @@ var VaultDexPlugin = class extends import_obsidian3.Plugin {
     );
     this.addRibbonIcon("eye", "VaultDex Search", () => this.activateView());
     this.addCommand({
-      id: "open-vaultdex",
-      name: "Open VaultDex search",
+      id: "open",
+      name: "Open search",
       callback: () => this.activateView()
     });
     this.addSettingTab(new VaultDexSettingTab(this.app, this));
     this.app.workspace.onLayoutReady(() => this.rebuildIndex());
   }
   async rebuildIndex() {
-    this.index = await buildIndex(this.app.vault, this.settings);
+    this.index = await buildIndex(this.app, this.app.vault, this.settings);
   }
   async activateView() {
     const { workspace } = this.app;

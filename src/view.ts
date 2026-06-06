@@ -1,4 +1,4 @@
-import { ItemView, Notice, TFile, ViewStateResult, WorkspaceLeaf } from 'obsidian';
+import { ItemView, Notice, TFile, ViewStateResult, WorkspaceLeaf, sanitizeHTMLToDom } from 'obsidian';
 import { search } from './scorer';
 import { NoteRecord, SearchResult } from './types';
 
@@ -76,12 +76,8 @@ export class VaultDexView extends ItemView {
   // ── Helpers ─────────────────────────────────────────────────────────────────
 
   private makeInput(parent: HTMLElement, cls: string, placeholder: string): HTMLInputElement {
-    const inp = document.createElement('input');
-    inp.type = 'text';
-    inp.className = cls;
+    const inp = parent.createEl('input', { cls, type: 'text' } as never) as unknown as HTMLInputElement;
     inp.placeholder = placeholder;
-    inp.style.textAlign = 'left';
-    parent.appendChild(inp);
     return inp;
   }
 
@@ -251,16 +247,21 @@ export class VaultDexView extends ItemView {
     const suffix   = results.length === 1 ? '' : 's';
 
     if (this.tagFilter) {
-      countSpan.innerHTML =
-        `VaultDex found <strong>${results.length}</strong> note${suffix}`
-        + ` tagged <strong>#${this.esc(this.tagFilter)}</strong>`;
+      countSpan.appendText('VaultDex found ');
+      countSpan.createEl('strong', { text: `${results.length}` });
+      countSpan.appendText(` note${suffix} tagged `);
+      countSpan.createEl('strong', { text: `#${this.tagFilter}` });
     } else {
-      const paraNote = this.paraFilter
-        ? ` in <strong>${PARA_LABELS[this.paraFilter] ?? this.paraFilter}</strong>`
-        : '';
-      countSpan.innerHTML =
-        `VaultDex found <strong>${results.length}</strong> result${suffix}${paraNote}`
-        + ` for &ldquo;<strong>${this.esc(this.lastQuery)}</strong>&rdquo;`;
+      countSpan.appendText('VaultDex found ');
+      countSpan.createEl('strong', { text: `${results.length}` });
+      countSpan.appendText(` result${suffix}`);
+      if (this.paraFilter) {
+        countSpan.appendText(' in ');
+        countSpan.createEl('strong', { text: PARA_LABELS[this.paraFilter] ?? this.paraFilter });
+      }
+      countSpan.appendText(' for “');
+      countSpan.createEl('strong', { text: this.lastQuery });
+      countSpan.appendText('”');
     }
 
     const sortWrap = rhdr.createEl('span', { cls: 'vd-sort-wrap' });
@@ -300,10 +301,7 @@ export class VaultDexView extends ItemView {
     }
     if (counts.size === 0) return;
 
-    const isDark = document.body.classList.contains('theme-dark');
-    const h3 = sidebar.createEl('h3', { cls: 'vd-sidebar-h3', text: 'Categories' });
-    h3.style.color = isDark ? '#aa55ff' : '#660099';
-    h3.style.borderBottomColor = isDark ? '#6600aa' : '#660099';
+    sidebar.createEl('h3', { cls: 'vd-sidebar-h3', text: 'Categories' });
 
     if (this.paraFilter) {
       const allLink = sidebar.createEl('div', { cls: 'vd-sitem' })
@@ -338,7 +336,7 @@ export class VaultDexView extends ItemView {
 
     if (r.snippet) {
       const snip = card.createEl('div', { cls: 'vd-rsnip' });
-      snip.innerHTML = r.snippet;
+      snip.appendChild(sanitizeHTMLToDom(r.snippet));
     }
 
     if (r.tags.length) {

@@ -4,6 +4,19 @@ All notable changes to VaultDex are documented here.
 
 ---
 
+## [1.2.8] — 2026-06-05
+
+### Fixed
+- **Passes Obsidian automated plugin scan** — resolved all errors flagged by the community portal:
+  - Replaced `innerHTML` with `sanitizeHTMLToDom()` throughout (safe HTML rendering for snippets)
+  - Replaced raw `h2` heading in settings with `Setting.setHeading()` API
+  - Removed inline style assignments; all colors now handled via CSS
+  - Used `app.vault.configDir` instead of hardcoded `.obsidian` for config folder detection
+  - Bumped `minAppVersion` to `1.5.3` to match APIs in use
+  - Command ID and name simplified (Obsidian auto-prefixes with plugin ID)
+
+---
+
 ## [1.2.7] — 2026-06-03
 
 ### Fixed

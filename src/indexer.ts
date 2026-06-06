@@ -1,9 +1,8 @@
-import { Vault } from 'obsidian';
+import { App, Vault } from 'obsidian';
 import { NoteRecord, VaultDexSettings } from './types';
 
-const SKIP_DIRS = new Set([
-  '.obsidian', '.claude', '.git', '_Sources', 'Pinboard',
-  '_Vault Scripts', 'plugin settings',
+const STATIC_SKIP_DIRS = new Set([
+  '.claude', '.git', '_Sources', 'Pinboard', '_Vault Scripts', 'plugin settings',
 ]);
 
 function parseFrontmatter(text: string): { tags: string[]; title: string; created: string; body: string } {
@@ -24,13 +23,15 @@ function parseFrontmatter(text: string): { tags: string[]; title: string; create
   return { tags, title, created, body };
 }
 
-export async function buildIndex(vault: Vault, settings: VaultDexSettings): Promise<NoteRecord[]> {
+export async function buildIndex(app: App, vault: Vault, settings: VaultDexSettings): Promise<NoteRecord[]> {
+  const configDir = app.vault.configDir;
+  const skipDirs = new Set([...STATIC_SKIP_DIRS, configDir]);
   const files = vault.getMarkdownFiles();
   const records: NoteRecord[] = [];
 
   for (const file of files) {
     const parts = file.path.split('/');
-    if (parts.some(p => SKIP_DIRS.has(p) || p.startsWith('.'))) continue;
+    if (parts.some(p => skipDirs.has(p) || p.startsWith('.'))) continue;
     if (settings.excludedFolders.some(f => file.path.startsWith(f + '/'))) continue;
 
     try {

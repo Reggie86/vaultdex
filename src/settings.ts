@@ -14,7 +14,7 @@ export class VaultDexSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
     containerEl.empty();
-    containerEl.createEl('h2', { text: 'VaultDex Settings' });
+    new Setting(containerEl).setName('VaultDex Settings').setHeading();
 
     new Setting(containerEl)
       .setName('Max results')

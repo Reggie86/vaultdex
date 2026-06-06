@@ -57,6 +57,7 @@
   text-align: left;
 }
 .vd-input-home::placeholder { color: var(--text-faint); opacity: 1; }
+.vd-input-home, .vd-input { text-align: left; }
 
 .vd-syntax-hint {
   font-size: 12px;
