@@ -4,6 +4,43 @@ All notable changes to VaultDex are documented here.
 
 ---
 
+## [1.2.18] — 2026-06-07
+
+### Changed
+- Default max results raised from 25 to 50
+- Setting max results to **0** now means no limit — returns all matching results; useful for folder-scoped searches where you want everything
+
+---
+
+## [1.2.17] — 2026-06-07
+
+### Changed
+- Default max results raised from 25 to 50 (superseded by 1.2.18)
+
+---
+
+## [1.2.16] — 2026-06-07
+
+### Changed
+- Updated manifest description to better reflect current feature set
+
+---
+
+## [1.2.15] — 2026-06-07
+
+### Added
+- **New `FolderName:search` syntax** — `Snippets:music`, `Electronic:ambient`, `Resources:linux` etc. More intuitive than `folder:Name search`; mirrors how `site:` works in Google. Legacy `folder:` syntax still supported.
+- **Filenames now searchable** — notes where the frontmatter title differs from the filename are now findable by filename
+
+---
+
+## [1.2.14] — 2026-06-07
+
+### Fixed
+- File basenames included in searchable index so notes are findable by filename even when frontmatter title differs
+
+---
+
 ## [1.2.13] — 2026-06-07
 
 ### Improved
