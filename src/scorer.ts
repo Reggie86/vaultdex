@@ -48,7 +48,7 @@ export function scoreNote(
 
   if (folderFilter) {
     const dirs = record.path.split('/').slice(0, -1);
-    if (!dirs.some(d => d.toLowerCase() === folderFilter.toLowerCase())) return null;
+    if (!dirs.some(d => d.toLowerCase().includes(folderFilter.toLowerCase()))) return null;
   }
 
   const lTitle = record.title.toLowerCase();

@@ -4,6 +4,13 @@ All notable changes to VaultDex are documented here.
 
 ---
 
+## [1.2.13] — 2026-06-07
+
+### Improved
+- **`folder:` now supports partial folder names** — `folder:Electronic` matches `Electronic Music`, `folder:Personal` matches `Personal Notes`, etc. Previously required exact single-word folder names. Mirrors how `site:` works in web search engines.
+
+---
+
 ## [1.2.8] — 2026-06-05
 
 ### Fixed

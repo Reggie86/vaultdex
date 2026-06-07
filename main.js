@@ -146,7 +146,7 @@ function scoreNote(record, query, paraFilter, folderFilter) {
   if (paraFilter && record.para !== paraFilter) return null;
   if (folderFilter) {
     const dirs = record.path.split("/").slice(0, -1);
-    if (!dirs.some((d) => d.toLowerCase() === folderFilter.toLowerCase())) return null;
+    if (!dirs.some((d) => d.toLowerCase().includes(folderFilter.toLowerCase()))) return null;
   }
   const lTitle = record.title.toLowerCase();
   const lTags = record.tags.join(" ").toLowerCase();
