@@ -1,9 +1,9 @@
 {
   "id": "vaultdex",
   "name": "VaultDex",
-  "version": "1.2.15",
+  "version": "1.2.16",
   "minAppVersion": "1.7.2",
-  "description": "Relevance-scored full-text vault search with PARA filtering, folder scoping, phrase and AND operators.",
+  "description": "Retro-styled, relevance-scored full-text vault search. PARA sidebar filter, FolderName:search syntax, highlighted snippets, tag browsing, and I'm Feeling Lucky.",
   "author": "Reggie86",
   "authorUrl": "https://github.com/Reggie86",
   "isDesktopOnly": false
