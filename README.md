@@ -113,7 +113,7 @@ Open **Settings → VaultDex** to configure:
 
 | Setting | Default | Description |
 |---|---|---|
-| Max results | 50 | Maximum number of results returned per search |
+| Max results | 50 | Maximum results returned per search. Set to 0 for no limit. |
 | Excluded folders | *(none)* | Comma-separated list of folders to skip during indexing |
 
 ---

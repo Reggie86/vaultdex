@@ -250,7 +250,7 @@ function search(index, rawQuery, paraFilter, sort, maxResults) {
   results.sort(
     sort === "date" ? (a, b) => b.created.localeCompare(a.created) : (a, b) => b.score - a.score
   );
-  return results.slice(0, maxResults);
+  return maxResults > 0 ? results.slice(0, maxResults) : results;
 }
 
 // src/view.ts
@@ -565,7 +565,7 @@ var VaultDexView = class extends import_obsidian.ItemView {
 // src/settings.ts
 var import_obsidian2 = require("obsidian");
 var DEFAULT_SETTINGS = {
-  maxResults: 25,
+  maxResults: 50,
   excludedFolders: []
 };
 var VaultDexSettingTab = class extends import_obsidian2.PluginSettingTab {
@@ -577,9 +577,9 @@ var VaultDexSettingTab = class extends import_obsidian2.PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
     new import_obsidian2.Setting(containerEl).setHeading();
-    new import_obsidian2.Setting(containerEl).setName("Max results").setDesc("Maximum number of search results to show.").addText((text) => text.setValue(String(this.plugin.settings.maxResults)).onChange(async (value) => {
+    new import_obsidian2.Setting(containerEl).setName("Max results").setDesc("Maximum number of search results to show. Set to 0 for no limit.").addText((text) => text.setValue(String(this.plugin.settings.maxResults)).onChange(async (value) => {
       const n = parseInt(value);
-      if (!isNaN(n) && n > 0) {
+      if (!isNaN(n) && n >= 0) {
         this.plugin.settings.maxResults = n;
         await this.plugin.saveSettings();
       }

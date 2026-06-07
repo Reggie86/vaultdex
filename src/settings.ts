@@ -2,7 +2,7 @@ import { App, PluginSettingTab, Setting } from 'obsidian';
 import { VaultDexSettings } from './types';
 
 export const DEFAULT_SETTINGS: VaultDexSettings = {
-  maxResults: 25,
+  maxResults: 50,
   excludedFolders: [],
 };
 
@@ -18,12 +18,12 @@ export class VaultDexSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName('Max results')
-      .setDesc('Maximum number of search results to show.')
+      .setDesc('Maximum number of search results to show. Set to 0 for no limit.')
       .addText(text => text
         .setValue(String(this.plugin.settings.maxResults))
         .onChange(async value => {
           const n = parseInt(value);
-          if (!isNaN(n) && n > 0) {
+          if (!isNaN(n) && n >= 0) {
             this.plugin.settings.maxResults = n;
             await this.plugin.saveSettings();
           }

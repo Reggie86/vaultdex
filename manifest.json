@@ -1,7 +1,7 @@
 {
   "id": "vaultdex",
   "name": "VaultDex",
-  "version": "1.2.16",
+  "version": "1.2.18",
   "minAppVersion": "1.7.2",
   "description": "Retro-styled, relevance-scored full-text vault search. PARA sidebar filter, FolderName:search syntax, highlighted snippets, tag browsing, and I'm Feeling Lucky.",
   "author": "Reggie86",

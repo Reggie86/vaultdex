@@ -132,5 +132,5 @@ export function search(
     ? (a, b) => b.created.localeCompare(a.created)
     : (a, b) => b.score - a.score,
   );
-  return results.slice(0, maxResults);
+  return maxResults > 0 ? results.slice(0, maxResults) : results;
 }
