@@ -40,7 +40,7 @@ The aesthetic is intentionally retro — think AltaVista meets your personal kno
 - **Clickable tags** — click any tag on a result to browse all notes with that tag
 - **Sort by Relevance or Newest**
 - **I'm Feeling Lucky** — opens a random note from your vault
-- **Folder-scoped search** — restrict results to a specific folder with `folder:` prefix
+- **Folder-scoped search** — restrict results to a specific folder with `FolderName:search terms` syntax
 - **Phrase and AND search** — supports quoted phrases and multi-word AND queries
 - **Theme-adaptive** — uses Obsidian CSS variables; works with any community theme in light or dark mode
 - **Fast** — index builds on vault load with no noticeable delay
@@ -99,10 +99,11 @@ VaultDex opens as a full workspace tab. Your vault index builds automatically in
 | Single word | `firewall` | Matches notes containing the word |
 | Multiple words | `linux firewall` | All words must appear (AND) |
 | Exact phrase | `"ssh key"` | Matches the exact phrase |
-| Folder scope | `folder:Resources linux` | Restricts results to a specific folder |
-| Combined | `folder:Resources "ssh key"` | Folder scope with phrase search |
+| Folder scope | `Snippets:music` | Restricts results to folders matching "Snippets" |
+| Partial folder name | `Electronic:ambient` | Matches "Electronic Music" folder |
+| Combined | `Resources:"ssh key"` | Folder scope with phrase search |
 
-> **Note:** `folder:` must appear at the start of the query. The folder name is case-insensitive and matches any folder whose name contains the given string.
+> **Note:** The folder name must appear at the start of the query followed by a colon. It is case-insensitive and matches any folder whose name contains the given string. The legacy `folder:Name search` syntax is also still supported.
 
 ---
 

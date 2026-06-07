@@ -168,7 +168,7 @@ export class VaultDexView extends ItemView {
 
     home.createEl('div', {
       cls: 'vd-syntax-hint',
-      text: '"exact phrase"  ·  word1 word2  ·  folder:<foldername> "search string"',
+      text: '"exact phrase"  ·  word1 word2  ·  FolderName:search terms',
     });
 
     const btnRow = home.createEl('div', { cls: 'vd-home-btns' });

@@ -31,10 +31,14 @@ var import_obsidian = require("obsidian");
 function parseQuery(raw) {
   let query = raw.trim();
   let folderFilter = null;
-  const folderMatch = query.match(/^folder:(\S+)\s*/i);
-  if (folderMatch) {
-    folderFilter = folderMatch[1];
-    query = query.slice(folderMatch[0].length);
+  const newSyntax = query.match(/^([A-Za-z][^:\s]+):(.+)/);
+  const legacySyntax = query.match(/^folder:(\S+)\s*/i);
+  if (legacySyntax) {
+    folderFilter = legacySyntax[1];
+    query = query.slice(legacySyntax[0].length);
+  } else if (newSyntax) {
+    folderFilter = newSyntax[1];
+    query = newSyntax[2].trim();
   }
   const phrases = [...query.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
   const remainder = query.replace(/"[^"]+"/g, "").trim();
@@ -399,7 +403,7 @@ var VaultDexView = class extends import_obsidian.ItemView {
     this.inputEl = this.makeInput(inputWrap, "vd-input-home", "Search vault\u2026");
     home.createEl("div", {
       cls: "vd-syntax-hint",
-      text: '"exact phrase"  \xB7  word1 word2  \xB7  folder:<foldername> "search string"'
+      text: '"exact phrase"  \xB7  word1 word2  \xB7  FolderName:search terms'
     });
     const btnRow = home.createEl("div", { cls: "vd-home-btns" });
     const searchBtn = btnRow.createEl("button", { cls: "vd-btn", text: "Search Vault" });
@@ -630,7 +634,7 @@ async function buildIndex(app, vault, settings) {
       const h1Match = body.match(/^#\s+(.+)/m);
       let displayTitle = title || (h1Match ? h1Match[1] : file.basename);
       displayTitle = displayTitle.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1").replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, "$1").trim();
-      const headers = ((_a = body.match(/^#{1,3}\s+(.+)/gm)) != null ? _a : []).join(" ");
+      const headers = [((_a = body.match(/^#{1,3}\s+(.+)/gm)) != null ? _a : []).join(" "), file.basename].join(" ");
       const para = (_b = parts[0]) != null ? _b : "";
       const createdStr = created || new Date(file.stat.mtime).toISOString();
       records.push({ path: file.path, title: displayTitle, para, tags, headers, body, created: createdStr });

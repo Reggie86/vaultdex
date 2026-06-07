@@ -4,10 +4,16 @@ export function parseQuery(raw: string): ParsedQuery {
   let query = raw.trim();
   let folderFilter: string | null = null;
 
-  const folderMatch = query.match(/^folder:(\S+)\s*/i);
-  if (folderMatch) {
-    folderFilter = folderMatch[1];
-    query = query.slice(folderMatch[0].length);
+  // Support FolderName:search terms syntax (e.g. Snippets:music, Electronic:ambient)
+  // Also accept legacy folder:FolderName search terms for backwards compatibility
+  const newSyntax = query.match(/^([A-Za-z][^:\s]+):(.+)/);
+  const legacySyntax = query.match(/^folder:(\S+)\s*/i);
+  if (legacySyntax) {
+    folderFilter = legacySyntax[1];
+    query = query.slice(legacySyntax[0].length);
+  } else if (newSyntax) {
+    folderFilter = newSyntax[1];
+    query = newSyntax[2].trim();
   }
 
   const phrases = [...query.matchAll(/"([^"]+)"/g)].map(m => m[1]);

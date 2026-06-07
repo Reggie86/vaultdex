@@ -45,7 +45,7 @@ export async function buildIndex(app: App, vault: Vault, settings: VaultDexSetti
         .replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, '$1')
         .trim();
 
-      const headers = (body.match(/^#{1,3}\s+(.+)/gm) ?? []).join(' ');
+      const headers = [(body.match(/^#{1,3}\s+(.+)/gm) ?? []).join(' '), file.basename].join(' ');
       const para = parts[0] ?? '';
       const createdStr = created || new Date(file.stat.mtime).toISOString();
 
